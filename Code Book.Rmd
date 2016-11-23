@@ -1,13 +1,3 @@
----
-title: "Code Book"
-author: "Gaurav A Singh"
-date: "November 23, 2016"
-output: html_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 ##Code Book
 
 This is the Code Book for the "Final Tidy Data.txt" for the programming assignment for the Coursera project for the Getting and Cleaning Data course.
