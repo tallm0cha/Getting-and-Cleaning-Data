@@ -33,20 +33,20 @@ mergedData <- rbind.data.frame(testMerged,trainMerged)
 featCols <- as.character(features$V2)
 colNames <- c("Subject","Activity ID",featCols)
 vColNames <- make.names(colNames, unique=TRUE, allow_ = TRUE)
+vColNames<-gsub('\\.','',vColNames)
 colnames(mergedData) <- vColNames
 
 #Extract Mean and Std Dev
-meansStddev<-select(mergedData, Subject,Activity.ID,contains("mean."), contains("std."),-contains("angle"))
+meansStddev<-select(mergedData, Subject,ActivityID,contains("mean"), contains("std"),-contains("angle"))
 
 #Add Activity labels
-Step4Data<-merge(activity,meansStddev, by.x="Activity.ID", by.y="Activity.ID")
+Step4Data<-merge(activity,meansStddev, by.x="Activity.ID", by.y="ActivityID")
 Step4Data<-select(Step4Data,-Activity.ID)
 
 #Generate averages
-Step4tidyData <- gather(Step4Data, Variable, Value, -Subject, -Activity.Label )
-Step5Data <- Step4tidyData %>% 
+Step5Data <- Step4Data %>% 
   group_by(Activity.Label,Subject) %>%
-  summarise(Activity.Avg=mean(Value))
+  summarize_each(funs(mean(., na.rm=TRUE)))
 
 #Write final table
 write.table(Step5Data,file="Final Tidy Dataset.txt", row.names = F)
